@@ -33,19 +33,21 @@ def make_percent(names):
     for key in letters_percent:
         letters_percent[key] /= total_names
 
-        # percent = round(letters_percent[key], 2)
-
-        # print(percent)
-
-    # print(total_names)
-    # print(letters_percent)
-
     return(letters_percent)
 
 
+def graph_data(boys, girls = 0):
+
+    for key, value in boys.items():
+        plt.axis([key, key,  0, 1])   ############################################################################################################
+        plt.plot(key, value, '-r')
+    plt.show()
 
 boys_names = open_file('Jacob Kahn - male_names.txt')
 girls_names = open_file('Jacob Kahn - female_names.txt')
 
-make_percent(boys_names)
-make_percent(girls_names)
+
+boy_percent = make_percent(boys_names)
+girl_percent = make_percent(girls_names)
+
+graph_data(boy_percent)
