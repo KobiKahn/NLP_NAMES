@@ -17,15 +17,18 @@ def open_file(filename):
 def make_percent(names):
     letters_percent = {'a':0, 'b':0, 'c':0, 'd':0, 'e':0, 'f':0, 'g':0, 'h':0, 'i':0, 'j':0, 'k':0, 'l':0, 'm':0, 'n':0, 'o':0, 'p':0, 'q':0, 'r':0, 's':0, 't':0, 'u':0, 'v':0, 'w':0, 'x':0, 'y':0, 'z':0}
 
+
     total_names = 0
 
     for name in names:
         total_names += 1
         end = name[-1].lower()
+        # end = name[0].lower()
+
 
         for key in letters_percent:
-
             if end == key:
+
                 letters_percent[key] += 1
 
 
@@ -33,21 +36,47 @@ def make_percent(names):
     for key in letters_percent:
         letters_percent[key] /= total_names
 
+    # print(letters_percent)
     return(letters_percent)
 
 
-def graph_data(boys, girls = 0):
+def graph_data(boys, girls):
+
+    keys_b = []
+    vals_b = []
+
+    keys_g = []
+    vals_g = []
 
     for key, value in boys.items():
-        plt.axis([key, key,  0, 1])   ############################################################################################################
-        plt.plot(key, value, '-r')
+        plt.axis([0, 26, 0, 1])
+
+        keys_b.append(key)
+        vals_b.append(value)
+
+
+    for key, value in girls.items():
+        plt.axis([0, 26, 0, 1])
+
+        keys_g.append(key)
+        vals_g.append(value)
+
+    plt.plot(keys_b, vals_b, '-b')
+    plt.plot(keys_g, vals_g, '-r')
+
+
     plt.show()
 
-boys_names = open_file('Jacob Kahn - male_names.txt')
-girls_names = open_file('Jacob Kahn - female_names.txt')
+
+def main(filename1, filename2):
+    boys_names = open_file(filename1)
+    girls_names = open_file(filename2)
+
+    boy_percent = make_percent(boys_names)
+    girl_percent = make_percent(girls_names)
+
+    graph_data(boy_percent, girl_percent)
 
 
-boy_percent = make_percent(boys_names)
-girl_percent = make_percent(girls_names)
+main('Jacob Kahn - female_names.txt', 'Jacob Kahn - male_names.txt')
 
-graph_data(boy_percent)
