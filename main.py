@@ -23,20 +23,24 @@ def make_percent(names):
         total_names += 1
         end = name[-1].lower()
 
-        for key, value in letters_percent.items():
+        for key in letters_percent:
 
             if end == key:
-                print(end, key)
-                value += 1
-                # print(value)
+                letters_percent[key] += 1
 
 
 
+    for key in letters_percent:
+        letters_percent[key] /= total_names
 
+        # percent = round(letters_percent[key], 2)
 
-    print(letters_percent)
+        # print(percent)
 
+    # print(total_names)
+    # print(letters_percent)
 
+    return(letters_percent)
 
 
 
@@ -44,3 +48,4 @@ boys_names = open_file('Jacob Kahn - male_names.txt')
 girls_names = open_file('Jacob Kahn - female_names.txt')
 
 make_percent(boys_names)
+make_percent(girls_names)
