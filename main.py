@@ -31,8 +31,6 @@ def make_percent(names):
 
                 letters_percent[key] += 1
 
-
-
     for key in letters_percent:
         letters_percent[key] /= total_names
 
@@ -60,6 +58,8 @@ def graph_data(boys, girls):
 
         keys_g.append(key)
         vals_g.append(value)
+
+    plt.title('Boys Names and Girls names \n LEGEND: Boys Names = Blue, Girls names = Red')
 
     plt.plot(keys_b, vals_b, '-b')
     plt.plot(keys_g, vals_g, '-r')
