@@ -70,7 +70,8 @@ def graph_data(boys, girls):
 
 
 
-def find_boy_stats(names):
+
+def boy_stats(boys_names, girls_names):
 
     tot_names = 0
     tot_def = 0
@@ -85,56 +86,51 @@ def find_boy_stats(names):
     FN = 0
 
 
-    girls_names = []
-    boys_names = []
+    comp_girls = []
+    comp_boys = []
 
     girl_endings = ['a', 'e', 'i']
     boy_endings = ['l', 'n', 'r', 's', 't']
 
 
-    for name in names:
+    for name in boys_names:
+        tot_names += 1
+
         end = name[-1].lower()
-        # print(end)
 
         if end in girl_endings:
-            # print(name)
-            girls_names.append(name)
+            comp_girls.append(name)
 
         elif end in boy_endings:
-            boys_names.append(name)
+            comp_boys.append(name)
 
         else:
             tot_def += 1
 
-
-
-    for name in names:
-
-        if name.upper() in girls_names:
-            # print(name)
-            tot_inc += 1
-            FN += 1
-
-        else:
-            tot_cor += 1
-            TN += 1
-
-    for name in names:
-        if name.upper() in boys_names:
+    for name in comp_boys:
+        if name in boys_names:
             tot_cor += 1
             TP += 1
 
-        else:
+        if name in girls_names:
             tot_inc += 1
             FP += 1
+
+    for name in comp_girls:
+        if name in girls_names:
+            tot_cor += 1
+            TN += 1
+
+        if name in boys_names:
+            tot_inc += 1
+            FN += 1
+
 
     print(tot_inc, tot_cor, FN, TN, TP, FP, tot_def)
 
     # print(girls_names)
     # print(boys_names)
     # print(tot_def)
-
-
 
 
 
@@ -146,7 +142,7 @@ def main(filename1, filename2):
     boy_percent = make_percent(boys_names)
     girl_percent = make_percent(girls_names)
 
-    find_boy_stats(boys_names)
+    boy_stats(boys_names, girls_names)
 
     graph_data(boy_percent, girl_percent)
 
