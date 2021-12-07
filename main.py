@@ -73,11 +73,11 @@ def graph_data(boys, girls):
 
 def boy_stats(boys_names, girls_names):
 
-    tot_names = 0
-    tot_def = 0
+    boy_total = 0
 
-    tot_inc = 0
-    tot_cor = 0
+    boy_def = 0
+    boy_inc = 0
+    boy_cor = 0
 
     TP = 0
     FP = 0
@@ -86,51 +86,59 @@ def boy_stats(boys_names, girls_names):
     FN = 0
 
 
-    comp_girls = []
-    comp_boys = []
+    B_comp_girls = []
+    B_comp_boys = []
+
+    G_comp_girls = []
+    G_comp_boys = []
 
     girl_endings = ['a', 'e', 'i']
     boy_endings = ['l', 'n', 'r', 's', 't']
 
-
+#### ASSAIGN EACH NAME TO COMP GENERATED LIST OF NAMES
     for name in boys_names:
-        tot_names += 1
+        boy_total += 1
 
         end = name[-1].lower()
 
         if end in girl_endings:
-            comp_girls.append(name)
+            B_comp_girls.append(name)
 
         elif end in boy_endings:
-            comp_boys.append(name)
+            B_comp_boys.append(name)
 
         else:
-            tot_def += 1
+            boy_def += 1
 
-    for name in comp_boys:
+    # for name in girls_names:
+
+
+
+########### SEE IF EACH NAME IS CORRECT OR INCORRECT FOR BOYS
+    for name in B_comp_boys:
         if name in boys_names:
-            tot_cor += 1
+            boy_cor += 1
             TP += 1
 
         if name in girls_names:
-            tot_inc += 1
+            boy_inc += 1
             FP += 1
 
-    for name in comp_girls:
+
+############ SEE IF EACH NAME IS CORRECT OR INCORRECT FOR GIRLS
+    for name in B_comp_girls:
         if name in girls_names:
-            tot_cor += 1
+            boy_cor += 1
             TN += 1
 
         if name in boys_names:
-            tot_inc += 1
+            boy_inc += 1
             FN += 1
 
 
-    print(tot_inc, tot_cor, FN, TN, TP, FP, tot_def)
+    print(FN, TN, TP, FP)
 
-    # print(girls_names)
-    # print(boys_names)
-    # print(tot_def)
+
 
 
 
