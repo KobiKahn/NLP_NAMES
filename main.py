@@ -71,7 +71,7 @@ def graph_data(boys, girls):
 
 
 
-def boy_stats(boys_names, girls_names):
+def boy_stats(boys_names, girls_names, check = 0):
 
     name_total = 0
 
@@ -91,52 +91,104 @@ def boy_stats(boys_names, girls_names):
     girl_endings = ['a', 'e', 'i']
     boy_endings = ['l', 'n', 'r', 's', 't']
 
+
+    if check == 0:
 #### ASSAIGN EACH NAME TO COMP GENERATED LIST OF NAMES
-    for name in boys_names:
-        name_total += 1
+        for name in boys_names:
+            name_total += 1
 
-        end = name[-1].lower()
+            end = name[-1].lower()
 
-        if end in girl_endings:
-            print(f'GIRL: {name}')
-            comp_girls.append(name)
+            if end in girl_endings:
+                # print(f'GIRL: {name}')
+                comp_girls.append(name)
 
-        elif end in boy_endings:
-            print(f'BOY: {name}')
-            comp_boys.append(name)
+            elif end in boy_endings:
+                # print(f'BOY: {name}')
+                comp_boys.append(name)
 
-        else:
+            else:
+                tot_def += 1
 
-            tot_def += 1
-
-    # for name in girls_names:
-
+        # for name in girls_names:
 
 
-########### SEE IF EACH NAME IS CORRECT OR INCORRECT FOR BOYS
-    for name in comp_boys:
 
-        if name in boys_names:
-            tot_cor += 1
-            TP += 1
+    ########### SEE IF EACH NAME IS CORRECT OR INCORRECT FOR BOYS
+        for name in comp_boys:
 
-        if name in girls_names:
-            tot_inc += 1
-            FP += 1
+            if name in boys_names:
+                tot_cor += 1
+                FP += 1
 
-
-############ SEE IF EACH NAME IS CORRECT OR INCORRECT FOR GIRLS
-    for name in comp_girls:
-        if name in girls_names:
-            tot_cor += 1
-            TN += 1
-
-        if name in boys_names:
-            tot_inc += 1
-            FN += 1
+            if name in girls_names:
+                tot_inc += 1
+                TP += 1
 
 
-# CALCULATE PCC, PM, and PD
+    ############ SEE IF EACH NAME IS CORRECT OR INCORRECT FOR GIRLS
+        for name in comp_girls:
+            if name in girls_names:
+                tot_cor += 1
+                FN += 1
+
+            if name in boys_names:
+                tot_inc += 1
+                TN += 1
+
+        print(TN, FP)
+        print(FN, TP)
+        print(tot_cor, tot_inc)
+        print('---------')
+
+
+    # CALCULATE PCC, PM, and PD
+
+    else:
+        for name in girls_names:
+            name_total += 1
+
+            end = name[-1].lower()
+
+            if end in girl_endings:
+                # print(f'GIRL: {name}')
+                comp_girls.append(name)
+
+            elif end in boy_endings:
+                # print(f'BOY: {name}')
+                comp_boys.append(name)
+
+            else:
+
+                tot_def += 1
+
+
+
+        ########### SEE IF EACH NAME IS CORRECT OR INCORRECT FOR BOYS
+        for name in comp_girls:
+
+            if name in girls_names:
+                tot_cor += 1
+                TP += 1
+
+            if name in boys_names:
+                tot_inc += 1
+                FP += 1
+
+        ############ SEE IF EACH NAME IS CORRECT OR INCORRECT FOR GIRLS
+        for name in comp_boys:
+            if name in boys_names:
+                tot_cor += 1
+                FN += 1
+
+            if name in girls_names:
+                tot_inc += 1
+                TN += 1
+
+        print(TP, FN)
+        print(FP, TN)
+        print(tot_cor, tot_inc)
+
 
     PCC = ((tot_cor) / (name_total - tot_def))
 
@@ -154,8 +206,11 @@ def boy_stats(boys_names, girls_names):
     Fscore = (2 * precision * recall) / (precision + recall)
 
 
-    print(FN, TN, TP, FP)
-    print(PCC, PM, PD)
+    # print(FN, TN, TP, FP)
+    # print(PCC, PM, PD)
+
+
+
 
 
 
@@ -167,6 +222,7 @@ def main(filename1, filename2):
     girl_percent = make_percent(girls_names)
 
     boy_stats(boys_names, girls_names)
+    boy_stats(boys_names, girls_names, 1)
 
     graph_data(boy_percent, girl_percent)
 
