@@ -99,45 +99,28 @@ def boy_stats(boys_names, girls_names, check = 0):
 
             end = name[-1].lower()
 
-            if end in girl_endings:
-                # print(f'GIRL: {name}')
-                comp_girls.append(name)
 
-            elif end in boy_endings:
+            if end in boy_endings:
                 # print(f'BOY: {name}')
                 comp_boys.append(name)
+                tot_cor += 1
+                TP += 1
+                TN += 1
+
+            elif end in girl_endings:
+                # print(f'GIRL: {name}')
+                comp_girls.append(name)
+                tot_inc += 1
+                FN += 1
+                FP += 1
 
             else:
                 tot_def += 1
 
 
 
-
-    ########### SEE IF EACH NAME IS CORRECT OR INCORRECT FOR BOYS
-        for name in boys_names:
-
-            if name in comp_boys:
-                tot_cor += 1
-                TP += 1
-
-            elif name in comp_girls:
-                tot_inc += 1
-                FN += 1
-
-
-    ############ SEE IF EACH NAME IS CORRECT OR INCORRECT FOR GIRLS
-        for name in girls_names:
-            if name in comp_girls:
-                tot_cor += 1
-                TN += 1
-
-            elif name in comp_boys:
-                tot_inc += 1
-                FP += 1
-
         print(TN, FP)
         print(FN, TP)
-        print(tot_cor, tot_inc)
 
         print(f'total_male = {name_total}')
 
@@ -154,12 +137,16 @@ def boy_stats(boys_names, girls_names, check = 0):
             end = name[-1].lower()
 
             if end in girl_endings:
-                # print(f'GIRL: {name}')
                 comp_girls.append(name)
+                tot_cor += 1
+                TP += 1
+                TN += 1
 
             elif end in boy_endings:
-                # print(f'BOY: {name}')
                 comp_boys.append(name)
+                tot_inc += 1
+                FN += 1
+                FP += 1
 
             else:
 
@@ -167,26 +154,6 @@ def boy_stats(boys_names, girls_names, check = 0):
 
 
 
-        ########### SEE IF EACH NAME IS CORRECT OR INCORRECT FOR BOYS
-        for name in girls_names:
-
-            if name in comp_girls:
-                tot_cor += 1
-                TP += 1
-
-            if name in comp_boys:
-                tot_inc += 1
-                FN += 1
-
-        ############ SEE IF EACH NAME IS CORRECT OR INCORRECT FOR GIRLS
-        for name in boys_names:
-            if name in comp_boys:
-                tot_cor += 1
-                TN += 1
-
-            if name in comp_girls:
-                tot_inc += 1
-                FP += 1
 
         print(TP, FN)
         print(FP, TN)
@@ -219,11 +186,10 @@ def boy_stats(boys_names, girls_names, check = 0):
 
     print(f'DEFERRED: {tot_def}')
 
+    print(f'INCORRECT: {tot_inc}')
+    print(f'CORRECT: {tot_cor}')
+
     print('---------')
-
-
-
-
 
 
 def main(filename1, filename2):
