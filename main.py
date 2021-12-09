@@ -144,11 +144,18 @@ def boy_stats(boys_names, girls_names):
 
     PD = ((tot_def) / (name_total))
 
+
+# CALCULATE PRECISION, RECALL, and F-SCORE
+
+    precision = TP/(TP + FP)
+
+    recall = TP/(TP + FN)
+
+    Fscore = (2 * precision * recall) / (precision + recall)
+
+
     print(FN, TN, TP, FP)
     print(PCC, PM, PD)
-
-
-
 
 
 
