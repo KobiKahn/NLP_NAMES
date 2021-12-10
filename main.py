@@ -71,19 +71,30 @@ def graph_data(boys, girls):
 
 
 
-def boy_stats(boys_names, girls_names, check = 0):
+def stats(boys_names, girls_names):
 
-    name_total = 0
+    boy_total = 0
+    girl_total = 0
 
-    tot_def = 0
-    tot_inc = 0
-    tot_cor = 0
+    boy_def = 0
+    girl_def = 0
 
-    TP = 0
-    FP = 0
+    G_inc = 0
+    G_cor = 0
 
-    TN = 0
-    FN = 0
+    B_inc = 0
+    B_cor = 0
+
+    B_TP = 0
+    B_FP = 0
+    B_TN = 0
+    B_FN = 0
+
+    G_TP = 0
+    G_FP = 0
+    G_TN = 0
+    G_FN = 0
+
 
     comp_girls = []
     comp_boys = []
@@ -92,104 +103,118 @@ def boy_stats(boys_names, girls_names, check = 0):
     boy_endings = ['l', 'n', 'r', 's', 't']
 
 
-    if check == 0:
+
 #### ASSAIGN EACH NAME TO COMP GENERATED LIST OF NAMES
-        for name in boys_names:
-            name_total += 1
+    for name in boys_names:
+        boy_total += 1
 
-            end = name[-1].lower()
-
-
-            if end in boy_endings:
-                # print(f'BOY: {name}')
-                comp_boys.append(name)
-                tot_cor += 1
-                TP += 1
-                TN += 1
-
-            elif end in girl_endings:
-                # print(f'GIRL: {name}')
-                comp_girls.append(name)
-                tot_inc += 1
-                FN += 1
-                FP += 1
-
-            else:
-                tot_def += 1
+        end = name[-1].lower()
 
 
+        if end in boy_endings:
+            comp_boys.append(name)
+            B_cor += 1
+            B_TP += 1
+            G_TN += 1
 
-        print(TN, FP)
-        print(FN, TP)
+        elif end in girl_endings:
+            comp_girls.append(name)
+            B_inc += 1
+            B_FN += 1
+            G_FP += 1
 
-        print(f'total_male = {name_total}')
+        else:
+            boy_def += 1
 
 
 
 
+    for name in girls_names:
+        girl_total += 1
 
-    # CALCULATE PCC, PM, and PD
+        end = name[-1].lower()
 
-    else:
-        for name in girls_names:
-            name_total += 1
+        if end in girl_endings:
+            comp_girls.append(name)
+            G_cor += 1
+            G_TP += 1
+            B_TN += 1
 
-            end = name[-1].lower()
+        elif end in boy_endings:
+            comp_boys.append(name)
+            G_inc += 1
+            G_FN += 1
+            B_FP += 1
 
-            if end in girl_endings:
-                comp_girls.append(name)
-                tot_cor += 1
-                TP += 1
-                TN += 1
-
-            elif end in boy_endings:
-                comp_boys.append(name)
-                tot_inc += 1
-                FN += 1
-                FP += 1
-
-            else:
-
-                tot_def += 1
+        else:
+            girl_def += 1
 
 
+    print(f'Boys TP: {B_TP}, Girls TN: {G_TN}')
+    print(f'Boys FN: {B_FN}, Girls FP: {G_FP}')
+
+    print(f'Girls TP: {G_TP}, Boys TN: {B_TN}')
+    print(f'Girls FN: {G_FN}, Boys FP: {B_FP}')
+
+    # print(tot_cor, tot_inc)
+
+    print(f'total_female = {girl_total}')
+
+    print(f'total_male = {boy_total}')
 
 
-        print(TP, FN)
-        print(FP, TN)
-        print(tot_cor, tot_inc)
+    # CALCULATE PRECISION, RECALL, and F-SCORE FOR BOYS
+    B_PCC = ((B_cor) / (boy_total - boy_def))
 
-        print(f'total_female = {name_total}')
+    B_PM = ((B_inc) / (boy_total - boy_def))
 
-
-
+    B_PD = ((boy_def) / (boy_total))
 
 
-    PCC = ((tot_cor) / (name_total - tot_def))
+    B_precision = B_TP/(B_TP + B_FP)
 
-    PM = ((tot_inc) / (name_total - tot_def))
+    B_recall = B_TP/(B_TP + B_FN)
 
-    PD = ((tot_def) / (name_total))
+    B_Fscore = (2 * B_precision * B_recall) / (B_precision + B_recall)
 
 
-# CALCULATE PRECISION, RECALL, and F-SCORE
+### CALCULATE GIRLS   CALCULATE PRECISION, RECALL, and F-SCORE FOR GIRLS
 
-    precision = TP/(TP + FP)
+    G_PCC = ((G_cor) / (boy_total - boy_def))
 
-    recall = TP/(TP + FN)
+    G_PM = ((G_inc) / (boy_total - boy_def))
 
-    Fscore = (2 * precision * recall) / (precision + recall)
+    G_PD = ((boy_def) / (boy_total))
 
-    print(f'precision: {precision}, recall: {recall}, FSCORE: {Fscore}')
 
-    print(f'PCC: {PCC}, PM: {PM}, PD: {PD}')
 
-    print(f'DEFERRED: {tot_def}')
+    G_precision = G_TP / (G_TP + G_FP)
 
-    print(f'INCORRECT: {tot_inc}')
-    print(f'CORRECT: {tot_cor}')
+    G_recall = G_TP / (G_TP + G_FN)
+
+    G_Fscore = (2 * G_precision * G_recall) / (G_precision + G_recall)
+
+
+
+    print(f'Boy precision: {B_precision}, Boy recall: {B_recall}, Boy FSCORE: {B_Fscore}')
+
+    print(f'Boy PCC: {B_PCC}, Boy PM: {B_PM}, Boy PD: {B_PD}')
+
+    print(f'Boy DEFERRED: {boy_def}')
+    print(f'BOY INCORRECT: {B_inc}')
+    print(f'BOY CORRECT: {B_cor}')
 
     print('---------')
+
+    print(f'Girl precision: {G_precision}, Girl recall: {G_recall}, Girl FSCORE: {G_Fscore}')
+
+    print(f'Girly PCC: {G_PCC}, Girl PM: {G_PM}, Girl PD: {G_PD}')
+
+    print(f'Girl DEFERRED: {girl_def}')
+
+    print(f'Girl DEFERRED: {girl_def}')
+    print(f'Girl INCORRECT: {G_inc}')
+    print(f'Girl CORRECT: {G_cor}')
 
 
 def main(filename1, filename2):
@@ -199,8 +224,8 @@ def main(filename1, filename2):
     boy_percent = make_percent(boys_names)
     girl_percent = make_percent(girls_names)
 
-    boy_stats(boys_names, girls_names)
-    boy_stats(boys_names, girls_names, 1)
+    stats(boys_names, girls_names)
+    # stats(boys_names, girls_names)
 
     graph_data(boy_percent, girl_percent)
 
