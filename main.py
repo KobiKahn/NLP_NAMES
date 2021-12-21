@@ -52,8 +52,8 @@ def make_percent(names, deferred = None):
         return(letters_percent)
 
 
-def graph_data(boys, girls, boy_def = None, girl_def = None):
-
+# GRAPHING
+def graph_data(boys, girls):
 
     keys_b = []
     vals_b = []
@@ -61,55 +61,64 @@ def graph_data(boys, girls, boy_def = None, girl_def = None):
     keys_g = []
     vals_g = []
 
-##### DO IT WITHOUT THE DEFERRED
-    if girl_def == None and boy_def == None:
-        for key, value in boys.items():
-            plt.axis([0, 26, 0, 1])
 
-            keys_b.append(key)
-            vals_b.append(value)
+    for key, value in boys.items():
+        plt.axis([0, 26, 0, 1])
 
-        for key, value in girls.items():
-            plt.axis([0, 26, 0, 1])
+        keys_b.append(key)
+        vals_b.append(value)
 
-            keys_g.append(key)
-            vals_g.append(value)
+    for key, value in girls.items():
+        plt.axis([0, 26, 0, 1])
 
-        plt.title('Boys Names and Girls names')
+        keys_g.append(key)
+        vals_g.append(value)
 
-        plt.plot(keys_b, vals_b, '-b')
-        plt.plot(keys_g, vals_g, '-r')
+    plt.title('Boys Names and Girls names')
 
-        plt.legend(['boys', 'girls'], loc='upper right')
-        plt.show()
+    plt.plot(keys_b, vals_b, '-b')
+    plt.plot(keys_g, vals_g, '-r')
 
-
-    # DO IT WITH DEFERRRED
-    else:
-        for key, value in boy_def.items():
-            plt.axis([0, 26, 0, 1])
-
-            keys_b.append(key)
-            vals_b.append(value)
-
-        for key, value in girl_def.items():
-            plt.axis([0, 26, 0, 1])
-
-            keys_g.append(key)
-            vals_g.append(value)
-
-        plt.title('BOY DEF AND GIRL DEF')
-
-        plt.plot(keys_b, boy_def, '-b')
-        plt.plot(keys_g, girl_def, '-r')
-
-        plt.legend(['boys', 'girls'], loc='upper right')
-        plt.show()
+    plt.legend(['boys', 'girls'], loc='upper right')
+    plt.show()
 
 
 
+def graph_def(boy_def, girl_def):
+    keys_b = []
+    vals_b = []
 
-def stats(boys_names, girls_names, boy_percent = None, girl_percent = None):
+    keys_g = []
+    vals_g = []
+
+    for key, value in boy_def.items():
+        plt.axis([0, 26, 0, 1])
+
+        keys_b.append(key)
+        vals_b.append(value)
+
+    for key, value in girl_def.items():
+        plt.axis([0, 26, 0, 1])
+
+        keys_g.append(key)
+        vals_g.append(value)
+
+    plt.title('BOY DEF AND GIRL DEF')
+
+    # print(len(keys_b), len(keys_g))
+
+    plt.plot(keys_b, vals_b, '-b')
+    plt.plot(keys_g, vals_g, '-r')
+
+    plt.legend(['boys', 'girls'], loc='upper right')
+    plt.show()
+
+
+
+
+
+# GET THE NUMBERS
+def stats(boys_names, girls_names, deferred = False):
 
     boy_total = 0
     girl_total = 0
@@ -140,10 +149,13 @@ def stats(boys_names, girls_names, boy_percent = None, girl_percent = None):
     comp_girls = []
     comp_boys = []
 
-    girl_endings = ['a', 'e', 'i', 'y']
-    boy_endings = ['l', 'n', 'r', 's', 't', 'd', 'o']
-
-
+    if deferred == False:
+        girl_endings = ['a', 'e', 'i']
+        boy_endings = ['l', 'n', 'r', 's', 't']
+    else:
+        print('-------------------------------------------\n DEFERREED DATA')
+        girl_endings = ['y']
+        boy_endings = ['d', 'o']
 
 #### ASSAIGN EACH NAME TO COMP GENERATED LIST OF NAMES
     for name in boys_names:
@@ -169,8 +181,6 @@ def stats(boys_names, girls_names, boy_percent = None, girl_percent = None):
             boy_def.append(name)
 
 
-
-
     for name in girls_names:
         girl_total += 1
 
@@ -192,11 +202,6 @@ def stats(boys_names, girls_names, boy_percent = None, girl_percent = None):
             girl_def_num += 1
             girl_def.append(name)
 
-
-    boy_def_percent = make_percent(0, boy_def)
-    girl_def_percent = make_percent(0, girl_def)
-
-    graph_data(boy_percent, girl_percent, boy_def_percent, girl_def_percent)
 
 
     print(f'Boys TP: {B_TP}, Girls TN: {G_TN}')
@@ -269,6 +274,14 @@ def stats(boys_names, girls_names, boy_percent = None, girl_percent = None):
     # print('------------------')
     # print(f'Boy_deferred: {boy_def}')
 
+    boy_def_percent = make_percent(0, boy_def)
+    girl_def_percent = make_percent(0, girl_def)
+
+    graph_def(boy_def_percent, girl_def_percent)
+
+    if deferred == False:
+        stats(boy_def, girl_def, True)
+
 
 
 
@@ -281,7 +294,7 @@ def main(filename1, filename2):
 
     graph_data(boy_percent, girl_percent)
 
-    stats(boys_names, girls_names, boy_percent, girl_percent)
+    stats(boys_names, girls_names)
 
 
 
