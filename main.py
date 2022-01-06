@@ -114,98 +114,8 @@ def graph_def(boy_def, girl_def):
     plt.show()
 
 
-# GET THE NUMBERS FOR THE DEFERRED
-def stats_def(boys_names, girls_names, boy_endings, girl_endings):
-    boy_total = 0
-    girl_total = 0
-
-    boy_def_num = 0
-    girl_def_num = 0
-
-    boy_def = []
-    girl_def = []
-
-    G_inc = 0
-    G_cor = 0
-
-    B_inc = 0
-    B_cor = 0
-
-    B_TP = 0
-    B_FP = 0
-    B_TN = 0
-    B_FN = 0
-
-    G_TP = 0
-    G_FP = 0
-    G_TN = 0
-    G_FN = 0
-
-    comp_girls = []
-    comp_boys = []
-
-    #### ASSAIGN EACH NAME TO COMP GENERATED LIST OF NAMES
-    for name in boys_names:
-        boy_total += 1
-
-        end = name[-1].lower()
-
-        if end in boy_endings:
-            comp_boys.append(name)
-            B_cor += 1
-            B_TP += 1
-            G_TN += 1
-
-        elif end in girl_endings:
-            comp_girls.append(name)
-            B_inc += 1
-            B_FN += 1
-            G_FP += 1
-
-        else:
-            boy_def_num += 1
-            boy_def.append(name)
-
-
-    for name in girls_names:
-        girl_total += 1
-
-        end = name[-1].lower()
-
-        if end in girl_endings:
-            comp_girls.append(name)
-            G_cor += 1
-            G_TP += 1
-            B_TN += 1
-
-        elif end in boy_endings:
-            comp_boys.append(name)
-            G_inc += 1
-            G_FN += 1
-            B_FP += 1
-
-        else:
-            girl_def_num += 1
-            girl_def.append(name)
-
-    print('DEFEREEDDDDDDDD AMOUNT')
-
-    print(f'Boys TP: {B_TP}, Girls TN: {G_TN}')
-    print(f'Boys FN: {B_FN}, Girls FP: {G_FP}')
-
-    print(f'Girls TP: {G_TP}, Boys TN: {B_TN}')
-    print(f'Girls FN: {G_FN}, Boys FP: {B_FP}')
-
-    # print(tot_cor, tot_inc)
-
-    # print(f'total_female = {girl_total}')
-
-    return B_TP, G_TN, B_FN, G_FP, G_TP, B_TN, G_FN, B_FP, B_cor, B_inc, G_cor, G_inc
-
-
-
 # GET THE NUMBERS FOR THE FIRST TIME
-def stats(boys_names, girls_names):
+def stats(boys_names, girls_names, option = 0):
 
     boy_total = 0
     girl_total = 0
@@ -239,7 +149,8 @@ def stats(boys_names, girls_names):
     girl_endings = ['a', 'e', 'i']
     boy_endings = ['l', 'n', 'r', 's', 't']
 
-
+    def_girl_endings = ['y']
+    def_boy_endings = ['d', 'o']
 
 #### ASSAIGN EACH NAME TO COMP GENERATED LIST OF NAMES
     for name in boys_names:
@@ -261,13 +172,23 @@ def stats(boys_names, girls_names):
             G_FP += 1
 
         else:
-            boy_def_num += 1
-            boy_def.append(name)
+            if option == 1:
+                boy_def_num += 1
+                boy_def.append(name)
+            else:
+                if end in def_boy_endings:
+                    B_TP += 1
+                    G_TN += 1
+                elif end in def_girl_endings:
+                    B_FN += 1
+                    G_FP += 1
+                elif option == 0:
+                    boy_def_num += 1
+                    boy_def.append(name)
 
 
     for name in girls_names:
         girl_total += 1
-
         end = name[-1].lower()
 
         if end in girl_endings:
@@ -283,32 +204,30 @@ def stats(boys_names, girls_names):
             B_FP += 1
 
         else:
-            girl_def_num += 1
-            girl_def.append(name)
+            if option == 1:
+                girl_def_num += 1
+                girl_def.append(name)
+
+            else:
+                if end in def_girl_endings:
+                    G_TP += 1
+                    B_TN += 1
+                elif end in def_boy_endings:
+                    G_FN += 1
+                    B_FP += 1
+                elif option == 0:
+                    girl_def_num += 1
+                    girl_def.append(name)
 
 
     # GRAPH DEFERRED
+
     boy_def_percent = make_percent(0, boy_def)
     girl_def_percent = make_percent(0, girl_def)
     graph_def(boy_def_percent, girl_def_percent)
 
-# GET DEFERRED NUMBERS
-    def_girl_endings = ['y']
-    def_boy_endings = ['d', 'o']
-    D_B_TP, D_G_TN, D_B_FN, D_G_FP, D_G_TP, D_B_TN, D_G_FN, D_B_FP, D_B_cor, D_B_inc, D_G_cor, D_G_inc = stats_def(boys_names, girls_names, def_girl_endings, def_boy_endings)
 
-    B_TP += D_B_TP
-    G_TN += D_G_TN
-    B_FN += D_B_FN
-    G_FP += D_G_FP
-    G_TP += D_G_TP
-    B_TN += D_B_TN
-    G_FN += D_G_FN
-    B_FP += D_B_FP
-    B_cor += D_B_cor
-    B_inc += D_B_inc
-    G_cor += D_G_cor
-    G_inc += D_G_inc
+
 
     print('-------------- FINAL AMOUNT ---------------')
 
@@ -397,7 +316,9 @@ def main(filename1, filename2):
 
     graph_data(boy_percent, girl_percent)
 
+    stats(boys_names, girls_names, 1)
     stats(boys_names, girls_names)
+
 
 
 
