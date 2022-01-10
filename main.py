@@ -149,25 +149,26 @@ def stats(boys_names, girls_names, option = 0):
     girl_endings = ['a', 'e', 'i']
     boy_endings = ['l', 'n', 'r', 's', 't']
 
-    def_girl_endings = ['y']
+    def_girl_endings = ['y', 'u']
     def_boy_endings = ['d', 'o']
 
 #### ASSAIGN EACH NAME TO COMP GENERATED LIST OF NAMES
     for name in boys_names:
         boy_total += 1
-
         end = name[-1].lower()
 
 
         if end in boy_endings:
             comp_boys.append(name)
             B_cor += 1
+
             B_TP += 1
             G_TN += 1
 
         elif end in girl_endings:
             comp_girls.append(name)
             B_inc += 1
+
             B_FN += 1
             G_FP += 1
 
@@ -177,16 +178,21 @@ def stats(boys_names, girls_names, option = 0):
                 boy_def.append(name)
             else:
                 if end in def_boy_endings:
+                    B_cor += 1
+
                     B_TP += 1
                     G_TN += 1
                 elif end in def_girl_endings:
+                    B_inc += 1
+
                     B_FN += 1
                     G_FP += 1
-                elif option == 0:
+
+                else:
                     boy_def_num += 1
                     boy_def.append(name)
 
-
+# CALCULATE GIRL NUMBERS
     for name in girls_names:
         girl_total += 1
         end = name[-1].lower()
@@ -194,12 +200,14 @@ def stats(boys_names, girls_names, option = 0):
         if end in girl_endings:
             comp_girls.append(name)
             G_cor += 1
+
             G_TP += 1
             B_TN += 1
 
         elif end in boy_endings:
             comp_boys.append(name)
             G_inc += 1
+
             G_FN += 1
             B_FP += 1
 
@@ -210,22 +218,31 @@ def stats(boys_names, girls_names, option = 0):
 
             else:
                 if end in def_girl_endings:
+                    G_cor += 1
+
                     G_TP += 1
                     B_TN += 1
                 elif end in def_boy_endings:
+                    G_inc += 1
+
                     G_FN += 1
                     B_FP += 1
-                elif option == 0:
+                else:
                     girl_def_num += 1
                     girl_def.append(name)
 
 
     # GRAPH DEFERRED
+    if option == 1:
+        boy_def_percent = make_percent(0, boy_def)
+        girl_def_percent = make_percent(0, girl_def)
+        graph_def(boy_def_percent, girl_def_percent)
 
-    boy_def_percent = make_percent(0, boy_def)
-    girl_def_percent = make_percent(0, girl_def)
-    graph_def(boy_def_percent, girl_def_percent)
-
+    else:
+        G_TN = B_TN
+        G_TP = B_TP
+        G_FN = B_FN
+        G_FP = B_FP
 
 
 
