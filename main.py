@@ -1,16 +1,27 @@
 import matplotlib.pyplot as plt
+import random
+
 
 def open_file(filename):
     x = 0
     names_list = []
+    random_names_list = []
     with open(filename) as file:
         for row in file:
+            # print(row)
             row = row.split()
-            x += 1
-            if x != 1:
-                names_list.append(row[0])
-    return names_list
+            row = row[0]
+            names_list.append(row)
 
+
+        random.shuffle(names_list)
+
+        for name in names_list:
+            x += 1
+            if x <= 1000:
+                random_names_list.append(name)
+    print(random_names_list)
+    return random_names_list
 
 
 
@@ -324,9 +335,10 @@ def stats(boys_names, girls_names, option = 0):
 
 
 
-def main(filename1, filename2):
-    girls_names = open_file(filename1)
-    boys_names = open_file(filename2)
+def main(boy_filename, girl_filename):
+
+    girls_names = open_file(girl_filename)
+    boys_names = open_file(boy_filename)
 
     boy_percent = make_percent(boys_names)
     girl_percent = make_percent(girls_names)
@@ -337,8 +349,5 @@ def main(filename1, filename2):
     stats(boys_names, girls_names)
 
 
-
-
-
-main('Jacob Kahn - female_names.txt', 'Jacob Kahn - male_names.txt')
+main('Jacob Kahn - kaggle_boys_name.txt', 'Jacob Kahn - kaggle_female_names.txt')
 
